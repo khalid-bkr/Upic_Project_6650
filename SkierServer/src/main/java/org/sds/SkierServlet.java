@@ -1,7 +1,14 @@
 package org.sds;
 
+
+import com.rabbitmq.client.ConnectionFactory;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.Channel;
+
 import com.google.gson.Gson;
 import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.concurrent.TimeoutException;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -10,6 +17,28 @@ import org.sds.model.Skier;
 
 @WebServlet(name = "SkierServlet", value = "/Skier/*")
 public class SkierServlet extends HttpServlet {
+    private final static String QUEUE_NAME = "SkierQueue";
+    private final static String QUEUE_URL = "localhost";
+    private RMQChannelPool channelPool;
+    private final static Integer POOL_SIZE = 200;
+    private String skierID;
+    private String dayID;
+    private String resortID;
+    private String seasonID;
+
+
+    @Override
+    public void init() throws ServletException {
+        ConnectionFactory factory = new ConnectionFactory();
+        factory.setHost(QUEUE_URL);
+        RMQChannelFactory channelFactory;
+        try {
+            channelFactory = new RMQChannelFactory(factory.newConnection());
+        } catch (IOException | TimeoutException e) {
+            throw new RuntimeException(e);
+        }
+        this.channelPool = new RMQChannelPool(POOL_SIZE, channelFactory);
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -47,18 +76,30 @@ public class SkierServlet extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-      response.setContentType("application/json");
-      Gson gson = new Gson();
+        response.setContentType("application/json");
+        String urlPath = request.getPathInfo();
+        formatPayload(urlPath);
+        Gson gson = new Gson();
+        try {
+            StringBuilder sb = new StringBuilder();
+            String s;
+            while ((s = request.getReader().readLine()) != null) {
+                sb.append(s);
+            }
 
-//      String skierJsonString = new Gson().toJson();
+//          set formatted load to send to rabbitmq queue
 
-      try {
-          StringBuilder sb = new StringBuilder();
-          String s;
-          while ((s = request.getReader().readLine()) != null) {
-              sb.append(s);
-          }
           Skier skier = gson.fromJson(sb.toString(), Skier.class);
+          skier.setSkierID(Integer.parseInt(this.skierID));
+          skier.setResortID(Integer.parseInt(this.resortID));
+          skier.setSeasonID(Integer.parseInt(this.seasonID));
+          skier.setDayID(Integer.parseInt(this.dayID));
+          String message = gson.toJson(skier);
+
+//          send message to rabbitmq queue.
+          sendToBroker(message);
+
+          System.out.println(message);
           response.setStatus(HttpServletResponse.SC_OK);
           PrintWriter out = response.getWriter();
           out.print(skier.toString());
@@ -69,5 +110,22 @@ public class SkierServlet extends HttpServlet {
       }
 
 
+  }
+
+  private void formatPayload(String urlPath) {
+
+        String[] urlParams = urlPath.split("/");
+        this.resortID = urlParams[2];
+        this.seasonID = urlParams[4];
+        this.dayID = urlParams[6];
+        this.skierID = urlParams[8];
+  }
+
+  private void sendToBroker(String message) throws Exception {
+        Channel channel = this.channelPool.borrowObject();
+        channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+        channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
+        System.out.println(" [x] Sent '" + message + "'");
+        channelPool.returnObject(channel);
   }
 }
