@@ -18,7 +18,7 @@ import org.sds.model.Skier;
 @WebServlet(name = "SkierServlet", value = "/Skier/*")
 public class SkierServlet extends HttpServlet {
     private final static String QUEUE_NAME = "SkierQueue";
-    private final static String QUEUE_URL = "localhost";
+    private final static String QUEUE_URL = "52.43.76.130";
     private RMQChannelPool channelPool;
     private final static Integer POOL_SIZE = 200;
     private String skierID;

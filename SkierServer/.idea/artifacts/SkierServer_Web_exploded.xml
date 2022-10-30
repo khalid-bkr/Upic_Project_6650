@@ -1,10 +1,11 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="SkierServer:war exploded">
-    <output-path>$PROJECT_DIR$/out/artifacts/SkierServer_war_exploded</output-path>
+  <artifact type="exploded-war" name="SkierServer:Web exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/SkierServer_Web_exploded</output-path>
     <root id="root">
       <element id="javaee-facet-resources" facet="SkierServer/web/Web" />
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
+          <element id="javaee-facet-classes" facet="SkierServer/web/Web" />
           <element id="module-output" name="SkierServer" />
         </element>
         <element id="directory" name="lib">

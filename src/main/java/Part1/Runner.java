@@ -5,7 +5,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Runner {
 
-//  private static final String BasePath = "http://54.185.15.173:8080/SkierServer_war/Skier";
+//  private static final String BasePath = "http://54.185.15.173:8080/testSkierServer_war/Skier";
   private static final int NUMBER_OF_THREADS = 100;
 
   public static void main(String[] args) throws InterruptedException {
