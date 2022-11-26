@@ -10,8 +10,9 @@ public class ClientThread extends Thread {
 
   private final int MAX_REQS = 5;
   public static final int NUMBER_OF_REQS = 2000;
-//  private static final String BasePath = "http://lb1-1e207e3acc3f71a9.elb.us-west-2.amazonaws.com/testServerSkier_war/Skier/";
-  private static final String BasePath = "http://34.221.200.14:8080/testServerSkier_war/Skier/";
+  private static final String BasePath = "http://LB1-51c29d36fedf641a.elb.us-west-2.amazonaws.com/testServerSkier_war/Skier/";
+//  private static final String BasePath = "http://34.221.200.14:8080/testServerSkier_war/Skier/";
+//  private static final String BasePath = "http://localhost:8080/testServerSkier_war/Skier/";
   private final SkiersApi apiInstance;
   private final CountDownLatch completed;
 
