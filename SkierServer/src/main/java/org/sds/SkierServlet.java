@@ -133,10 +133,12 @@ public class SkierServlet extends HttpServlet {
 
     }
 
+    // key-value pair: (GET2:resortID_1_seasonID_2022_dayID_1_skierID_100, numberOfVerticalOnDay1)
     private String getKeyForGET2(String[] urlParts) {
         return "GET2:resortID_" + this.resortID + "_seasonID_" + this.seasonID + "_dayID_" + this.dayID + "_skierID_" + this.skierID;
     }
 
+    // key-value pair: (GET3:totalVerticalForSkier_1, numberOfAllVerticalsForSkier1)
     private String getKeyForGET3(String[] urlParts) {
         return "GET3:totalVerticalForSkier_" + this.skierID;
     }
