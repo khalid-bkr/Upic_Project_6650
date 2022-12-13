@@ -94,7 +94,23 @@ public class Consumer {
 
     String mapKey = "resort_ID_" + skier.getResortID() + "_day_ID_" + skier.getDayID() + "_skier_ID_" + skier.getSkierID() + "_time_" + skier.getTime();
     try (Jedis jedis = jedisPool.getResource()) {
+      // The previous data model
       jedis.hmset(mapKey, map);
+
+      // Data model for GET-1: get number of unique skiers at resort/season/day
+      // We can use Redis.scard method to get the number of elements of a single key, and that would be the result we need
+      // key-value pair: (GET1:resortID_1_seasonID_2022_dayID_1, skierID)
+      jedis.sadd("GET1:resortID_" + skier.getResortID() + "_seasonID_" + skier.getSeasonID() + "_dayID_" + skier.getDayID(),
+              String.valueOf(skier.getSkierID()));
+
+      // Data model for GET-2: get the total vertical for the skier for the specified ski day
+      // key-value pair: (GET2:resortID_1_seasonID_2022_dayID_1_skierID_100, numberOfVerticalOnDay1)
+      jedis.incrBy("GET2:resortID_" + skier.getResortID() + "_seasonID_" + skier.getSeasonID() + "_dayID_"
+              + skier.getDayID() + "_skierID_" + skier.getSkierID(), skier.getDayID() * 10);
+
+      // Data model for GET-3: get the total vertical for the skier.
+      // key-value pair: (GET3:totalVerticalForSkier_1, numberOfAllVerticalsForSkier1)
+      jedis.incrBy("GET3:totalVerticalForSkier_" + skier.getSkierID(), skier.getLiftID() * 10);
     }
 
   }
