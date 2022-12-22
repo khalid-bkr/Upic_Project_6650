@@ -1,0 +1,33 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="SkiServer">
+    <output-path>$PROJECT_DIR$/out/artifacts/SkiServer</output-path>
+    <root id="archive" name="SkiServer.war">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="SkierServer" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.9.1" />
+          <element id="library" level="project" name="Maven: com.rabbitmq:amqp-client:5.16.0" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:2.0.3" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-simple:2.0.3" />
+          <element id="library" level="project" name="Maven: org.apache.commons:commons-pool2:2.11.1" />
+          <element id="library" level="project" name="Maven: org.apache.maven.plugins:maven-compiler-plugin:3.9.0" />
+          <element id="library" level="project" name="Maven: org.apache.maven.shared:maven-shared-utils:3.3.4" />
+          <element id="library" level="project" name="Maven: commons-io:commons-io:2.6" />
+          <element id="library" level="project" name="Maven: org.apache.maven.shared:maven-shared-incremental:1.1" />
+          <element id="library" level="project" name="Maven: org.codehaus.plexus:plexus-component-annotations:1.5.5" />
+          <element id="library" level="project" name="Maven: org.codehaus.plexus:plexus-java:1.1.0" />
+          <element id="library" level="project" name="Maven: org.ow2.asm:asm:9.2" />
+          <element id="library" level="project" name="Maven: com.thoughtworks.qdox:qdox:2.0.0" />
+          <element id="library" level="project" name="Maven: org.codehaus.plexus:plexus-compiler-api:2.9.0" />
+          <element id="library" level="project" name="Maven: org.codehaus.plexus:plexus-utils:3.3.0" />
+          <element id="library" level="project" name="Maven: org.codehaus.plexus:plexus-compiler-manager:2.9.0" />
+          <element id="library" level="project" name="Maven: org.codehaus.plexus:plexus-compiler-javac:2.9.0" />
+          <element id="library" level="project" name="Maven: redis.clients:jedis:4.3.0" />
+          <element id="library" level="project" name="Maven: org.json:json:20220320" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

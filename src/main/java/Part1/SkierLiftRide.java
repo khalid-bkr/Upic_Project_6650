@@ -18,7 +18,7 @@ public class SkierLiftRide {
     this.resortID = ThreadLocalRandom.current().nextInt(1, 10);
     this.liftID = ThreadLocalRandom.current().nextInt(1,40);
     this.seasonID = "2022";
-    this.dayID = "1";
+    this.dayID = "3";
     this.time = ThreadLocalRandom.current().nextInt(1, 360);
     this.liftRide = new LiftRide();
     liftRide.setTime(this.time);
